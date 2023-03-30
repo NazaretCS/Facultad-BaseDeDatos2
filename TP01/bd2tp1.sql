@@ -336,12 +336,57 @@
 		sistema, de aquellos equipos que ingresaron hace más de 100 días (recalcule usando la fecha de ingreso y la del sistema)
 		
 		
+				UPDATE mantenimiento_equipo
+				SET estado = 'baja', fecha_egreso = CURRENT_TIMESTAMP
+				WHERE DATEDIFF(CURRENT_TIMESTAMP, fecha_ingreso) > 100
+				
+				
+															&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+															%%                        %%
+															%%          #####         %%
+													     	%%       ###     ###      %%      
+															%%            ###         %%
+															%%           ##           %%
+															%%                        %%
+															%%           #            %%
+															%%    	     #            %%
+															%%%%%%%%%%%%%%%%%%%%%%%%%%%%					
+									
+															Los update no son lo mio
+															
+															
+															
+	16) Elimine las clasificaciones que no se usan en los medicamentos.			
+	
+		DELETE FROM clasificacion
+		LEFT JOIN medicamento USING(id_clasificacion)
+		WHERE id_medicamento IS NULL
 		
-*/	
+		
+		DELETE FROM clasificacion
+		WHERE id_clasificacion NOT IN (
+									SELECT id_clasificacion FROM medicamento
+								  )
+				
 				
 	
-			
+	
+	17) Elimine las compras realizadas entre 01/03/2008 y 15/03/2008, de los medicamentos cuya clasificación es ‘ENERGETICOS’.
+	
+	
+		DELETE FROM compra
+		WHERE fecha BETWEEN '2008-03-01' AND '2008-03-15' AND id_medicamento NOT IN (
+																					SELECT id_medicamento FROM medicamento
+																					INNER JOIN clasificacion USING(id_clasificacion)
+																					WHERE clasificacion <> 'ENERGETICOS'
+																				   )
+*/	
 
+		
+		
+		
+	
+				
 			
 			
 			
