@@ -191,7 +191,100 @@
 										WHERE nombre = 'ALEJANDRA' AND apellido = 'HERRERA'
 										
 									  (ambas consultas dan el mismo id)
-*/
+
+
+	Ejercicio nro. 6:	
+	Ingresan a mantenimiento las siguientes camas y equipos.
 	
+		Camas: 53, 111, 163		   El estado de los mismos debe ser EN REPARACION, modifique y 
+		Equipos: 12, 30             agregue los registros correspondientes con la fecha de hoy.
+	
+	
+
+	
+	BEGIN;
+	
+		INSERTT INTO mantenimiento_cama (id_cama, fecha_ingreso, observacion, estado, fecha_egreso, demora, id_empleado)
+		VALUES ( 53, '2023-04-23', 'sin novedad', 'En reparacion', '', 0, 801 );
+		
+		INSERT INTO mantenimiento_cama (id_cama, fecha_ingreso, observacion, estado, fecha_egreso, demora, id_empleado)
+		VALUES ( 111, '2023-04-23', 'sin novedad', 'En reparacion', '', 0, 143 );
+		
+		INSERT INTO mantenimiento_cama (id_cama, fecha_ingreso, observacion, estado, fecha_egreso, demora, id_empleado)
+		VALUES ( 163, '2023-04-23', 'sin novedad', 'En reparacion', '', 0, 143 );
+		
+		INSERT INTO mantenimiento_equipo (id_equipo, fecha_ingreso, observacion, estado, fecha_egreso, demora, id_empleado)
+		VALUES ( 12, '2023-04-23', 'sin novedad', 'En reparacion', '', 0, 801 )
+		
+		INSERT INTO mantenimiento_equipo (id_equipo, fecha_ingreso, observacion, estado, fecha_egreso, demora, id_empleado)
+		VALUES ( 30, '2023-04-23', 'sin novedad', 'En reparacion', '', 0, 801 )
+		
+		
+									&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+									%%                        %%
+									%%          #####         %%
+									%%       ###     ###      %%      
+									%%            ###         %%
+									%%           ##           %%
+									%%                        %%
+									%%           #            %%
+									%%                        %%
+									%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+									
+							Puedo poner cualquier cosa en los datos q no estan espesificados.?
+							(Todavia no esta ejecutado el punto)
+		
+		
+	Ejercicio nro. 7:
+	Realice una transacción que agregue los espesificados registros en la tabla compras.
+		
+		BEGIN;
+			
+			INSERT INTO compra (id_medicamento, id_proveedor, fecha, id_empleado, precio_unitario, cantidad)
+			VALUES (
+					(SELECT id_medicamento FROM medicamento
+					 WHERE nombre = 'BILICANTA'),					
+					(SELECT id_proveedor FROM proveedor
+					 WHERE proveedor = 'MEDIFARMA'),
+					'2023-04-19', 801, 
+					(((SELECT precio FROM medicamento
+					 WHERE nombre = 'BILICANTA') * 70) / 100),
+					240
+				   );
+			
+			INSERT INTO compra (id_medicamento, id_proveedor, fecha, id_empleado, precio_unitario, cantidad)
+			VALUES (
+					(SELECT id_medicamento FROM medicamento
+					 WHERE nombre = 'IRRITREN 200 MG'),					
+					(SELECT id_proveedor FROM proveedor
+					 WHERE proveedor = 'DIFESA'),
+					'2023-04-19', 801, 
+					(((SELECT precio FROM medicamento
+					 WHERE nombre = 'IRRITREN 200 MG') * 70) / 100),
+					90
+				   );
+			
+			INSERT INTO compra (id_medicamento, id_proveedor, fecha, id_empleado, precio_unitario, cantidad)
+			VALUES (
+					(SELECT id_medicamento FROM medicamento
+					 WHERE nombre = 'PEDIAFEN JARABE'),					
+					(SELECT id_proveedor FROM proveedor
+					 WHERE proveedor = 'REYES DROGUERIA'),
+					'2023-04-19', 801, 
+					(((SELECT precio FROM medicamento
+					 WHERE nombre = 'PEDIAFEN JARABE') * 70) / 100),
+					150
+				   );
+				   
+		/*ROLLBACK;*/
+		COMMIT;
+	
+*/		
+		
+			
+			
+			
+			
+			
 	
 	
