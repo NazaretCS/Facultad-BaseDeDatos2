@@ -279,11 +279,41 @@
 		/*ROLLBACK;*/
 		COMMIT;
 	
+	
+	
+	Ejercicio nro. 8:
+	a) Escriba una transacción para eliminar al paciente 175363.
+		
+		BEGIN;
+			
+			DELETE FROM persona 
+			WHERE id_persona = 175363
+			
+			/*
+				ERROR:  update o delete en «paciente» viola la llave foránea «Refpaciente101» en la tabla «estudio_realizado»
+				DETAIL:  La llave (id_paciente)=(175363) todavía es referida desde la tabla «estudio_realizado».
+				SQL state: 23503
+			*/
+
+		ROLLBACK;
+	
+	
+	
+	b) Escriba una transacción para eliminar al medicamento "SALBUTOL GOTAS".
+	
+		BEGIN;
+			
+			DELETE FROM medicamento
+			WHERE nombre = 'SALBUTOL GOTAS';
+			
+			/*
+				ERROR:  update o delete en «medicamento» viola la llave foránea «Refmedicamento11» en la tabla «compra»
+				DETAIL:  La llave (id_medicamento)=(867) todavía es referida desde la tabla «compra».
+				SQL state: 23503
+			*/
+		ROLLBACK;
 */		
 		
-			
-			
-			
 			
 			
 	
