@@ -143,17 +143,6 @@
 	
 	
 	
-	INSERT INTO articulo (id_articulo, id_autor, id_editorial, id_genero, titulo, duracion_paginas, anio,
-	precio, id_origen, id_proveedor)	
-	VALUES ((SELECT MAX(a.id_articulo) FROM articulo a)+1,(SELECT a.id_autor FROM autor a WHERE
-	autor = 'Paul Beynon-Davies'),(SELECT e.id_editorial FROM editorial e WHERE editorial = 'Editorial
-	Reventé'),(SELECT g.id_genero FROM genero g WHERE genero = 'Informatica'),'Sistemas de Bases
-	de Datos',686,2010,24.954,(SELECT o.id_origen FROM origen o WHERE origen = 'U.K'),10);}
-	
-	INSERT INTO autor (id_autor,autor,tipo)
-	VALUES ((SELECT MAX(a.id_autor) FROM autor a)+1,'Dolores Cuadra','autor');
-	
-	
 	Ejercicio nro. 4:
 	Agregue en la tabla factura, la facturación realizada al paciente HERRERA, ALEJANDRA por todos los servicios prestados
 	en el mes de abril de 2023.
@@ -161,11 +150,17 @@
 	
 	BEGIN;
 		
+		SELECT * FROM persona 
+		INNER JOIN paciente ON id_paciente = id_persona
+		INNER JOIN factura USING (id_paciente)
+		WHERE nombre = 'ALEJANDRA' AND apellido LIKE '%HERRERA%'
+		
 		INSERT INTO factura (id_factura, id_paciente, fecha, hora, monto, pagada, saldo)
-		VALUES ( (SELECT MAX(id_paciente) FROM paciente)+1, ( SELECT id_persona FROM persona 
+		VALUES ( (SELECT MAX(id_factura) FROM factura)+1, ( SELECT id_persona FROM persona 
 															 WHERE nombre = 'ALEJANDRA' AND apellido LIKE '%HERRERA%'), 
-			    '2023-04-06', '16:44:00', 169699.41, 'S', 0.00 )
+			    '2023-04-06', '16:44:00', 169699.41, 'N', 169699 )
 	
+	COMMIT;
 	/*ROLLBACK;*/
 	
 									&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -181,7 +176,11 @@
 									
 						Consultar: 
 								   1) Devo hacer una sola incersion por toda la factura o una por cada apartado de los detalles
+								   	1 Sola incersion.
+									
 								   2) Que hago con el dato hora que no esta en la factura.
+								   	Se le pone cualquiera.
+									
 								   3) Seria lo mismo sacar el id_paciente de estas dos formas:
 								   		SELECT id_persona FROM persona 
 										WHERE nombre = 'ALEJANDRA' AND apellido = 'HERRERA'
@@ -191,6 +190,9 @@
 										WHERE nombre = 'ALEJANDRA' AND apellido = 'HERRERA'
 										
 									  (ambas consultas dan el mismo id)
+									  
+									  Datos ramdom: El monto es lo que le estas cobrando, si recien se la esta creando a la consulta
+									  				no hay chance de que este pagada. 
 
 
 	Ejercicio nro. 6:	
@@ -233,6 +235,9 @@
 									
 							Puedo poner cualquier cosa en los datos q no estan espesificados.?
 							(Todavia no esta ejecutado el punto)
+							
+							En el relacional, las fk que se muestran abajo es porque pueden llegar a ser nulas.
+							Los datos que no estan fijarse si pueden ser nulos. Ya era digamos jajaja la agrege pagada 
 		
 		
 	Ejercicio nro. 7:
@@ -286,13 +291,17 @@
 		
 		BEGIN;
 			
-			DELETE FROM persona 
-			WHERE id_persona = 175363
+			DELETE FROM paciente
+			WHERE id_paciente = 175363
 			
 			/*
 				ERROR:  update o delete en «paciente» viola la llave foránea «Refpaciente101» en la tabla «estudio_realizado»
 				DETAIL:  La llave (id_paciente)=(175363) todavía es referida desde la tabla «estudio_realizado».
 				SQL state: 23503
+				
+				Para solucionar el error deveria borrar tabla por tabala al paciente para asi eliminar las relaciones creadas.
+				
+				
 			*/
 
 		ROLLBACK;
@@ -312,6 +321,12 @@
 				SQL state: 23503
 			*/
 		ROLLBACK;
+		
+		
+		
+		Ejercicio nro. 5:
+		
+			
 */		
 		
 			
