@@ -326,10 +326,53 @@
 		
 		Ejercicio nro. 5:
 		
+			CREATE ROLE "Nazaret2" WITH
+			LOGIN
+			SUPERUSER
+			CREATEDB
+			CREATEROLE
+			INHERIT
+			NOREPLICATION
+			CONNECTION LIMIT -1
+			PASSWORD 'xxxxxx'; /* nazaret */
+			
+			
+			PERSONA 1
+			
+		a) Trabaje de a 2 en el servidor (en caso de tener problemas trabaje en la BD local con 2 query tool conectadas cada una con un 
+		   usuario distinto) y realicen:
+		   
+		   Persona 1 muestre todos los campos de la patología 1. Que datos se ven?
+		   	
+				SELECT * FROM patologia
+				WHERE id_patologia = 1
+			
+				Se ven el dato de la PK y el nombre de la patologia (los campos de la tabla digamos)
+			
+			
+			Persona 1 vuelva a mostrar los campos de la patología 1. Que datos se ven?
+			
+				SELECT * FROM patologia
+				WHERE id_patologia = 1
+				
+				Se siguen viendo los mismos campos, por mas que se halla iniciado la transaccion.
+				
+			Persona 1 vuelva a mostrar los campos de la patología 1. Que datos se ven?
+				
+				SELECT * FROM patologia
+				WHERE id_patologia = 1
+				
+				Se ven los mismos campos, pero ahora luego de realizarse el commit se actualizo el nombre de la patologia, y 
+				ahora muestra mi nombre
+			
+			Responda que nivel de aislamiento tuvo la transacción
+				
+				El nivel de aislamiento que tuvo la transaccion es el que tiene postgresql por defecto:
+				El nivel de aislamiento por defecto de una transacción en el SQL estándar es SERIALIZABLE. En PostgreSQL el 
+				valor por defecto es READ COMMITTED, además trata a READ UNCOMMITTED cómo READ COMMITTED. 
 			
 */		
 		
-			
 			
 	
 	
