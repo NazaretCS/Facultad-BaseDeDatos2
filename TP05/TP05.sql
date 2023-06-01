@@ -171,6 +171,20 @@
 		
 
 
+
+BEGIN;
+	
+		INSERTT INTO mantenimiento_cama (id_cama, fecha_ingreso, observacion, estado, fecha_egreso, demora, id_empleado)
+		VALUES ( 53, '2023-04-23', 'sin novedad', 'En reparacion', '', 0, 801 );
 		
 	
 */
+
+
+	BEGIN;	
+		INSERT INTO empleado (id, nombre, dni, domicilio, e-mail, telefono, cargo, sector, legajo, sueldo)
+		VALUES (1, 'VILCARROMERO, ERICK', 17130935, ROW('AV SANTA ROSA', 1177, 'S.M.TUC', 'TUCUMAN'), array['vil@gmail.com','vilco@live.com'],
+			    ARRAY['4319842','4245554', '4444444', '381555414'], 150000, 'ventas', 'cajero', )
+		
+
+
