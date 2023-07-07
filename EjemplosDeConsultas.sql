@@ -260,4 +260,59 @@ c) Modifique la tabla préstamo, el campo estado_multa, con el valor “pagado�
 								%%                        %%
 								%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */	
-		
+	CREATE OR REPLACE PROCEDURE medicamento_laboratorio_clasificacion( IN p_nombre_laboratorio character varying(500),
+																	   IN p_nombre_clasificacion character varying(75))
+	AS $$
+		DECLARE
+			v_id_laboratorio integer;
+			v_id_clasificacion integer;
+			v_promedio_precio numeric(8, 2);
+			v_cursor_row medicamento%ROWTYPE;
+			
+			cursor_medicamentos CURSOR FOR
+											SELECT *
+											FROM medicamento
+											WHERE id_laboratorio = v_id_laboratorio
+											AND id_clasificacion = v_id_clasificacion
+											AND precio < v_promedio_precio
+											ORDER BY precio ASC;
+
+		BEGIN
+			SELECT id_laboratorio INTO v_id_laboratorio
+			FROM laboratorio
+			WHERE laboratorio = p_nombre_laboratorio;
+			
+			IF v_id_laboratorio IS NULL THEN
+				RAISE NOTICE 'El laboratorio ingresado no existe.';
+				RETURN;
+			END IF;
+			
+			SELECT id_clasificacion INTO v_id_clasificacion
+			FROM clasificacion
+			WHERE clasificacion = p_nombre_clasificacion;
+			
+			IF v_id_clasificacion IS NULL THEN
+				RAISE NOTICE 'La clasificación ingresada no existe.';
+				RETURN;
+			END IF;
+			
+			SELECT AVG(precio) INTO v_promedio_precio
+			FROM medicamento
+			WHERE id_laboratorio = v_id_laboratorio
+			AND id_clasificacion = v_id_clasificacion;
+			
+			IF v_promedio_precio IS NULL THEN
+				RAISE NOTICE 'No hay medicamentos disponibles para el laboratorio y clasificación especificados';
+				RETURN;
+			END IF;
+			
+			OPEN cursor_medicamentos;
+			LOOP
+				FETCH cursor_medicamentos INTO v_cursor_row;
+				EXIT WHEN NOT FOUND;
+				
+				RAISE NOTICE 'ID Medicamento: %, Nombre: %, Precio: %', v_cursor_row.id_medicamento, v_cursor_row.nombre, v_cursor_row.precio;
+			END LOOP;
+			CLOSE cursor_medicamentos;
+		END;
+	$$ LANGUAGE plpgsql;
